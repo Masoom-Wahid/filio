@@ -1,0 +1,21 @@
+{
+	"download watcher" : {
+		"path" : "/home/masoom/Downloads",
+		"extension" : "pdf",
+		"kind" : "create",
+		"output" : "/home/masoom/Downloads/documents/network"
+	},
+	"document watcher" : {
+		"path" : "/home/masoom/Documents",
+		"extension" : "txt",
+		"kind" : "create",
+		"output" : "/home/masoom/Documents/test"
+	},
+	"download pdf watcher":{
+		"path" : "/home/masoom/dev/comp/rust",
+		"extension" : "pdf",
+		"kind" : "create",
+		"output" : "/home/masoom/dev/comp/rust/bins"
+
+	}
+}
