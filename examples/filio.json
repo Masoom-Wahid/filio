@@ -1,21 +1,21 @@
 {
 	"download watcher" : {
-		"path" : "/home/masoom/Downloads",
+		"path" : "/path/to/dir",
 		"extension" : "pdf",
 		"kind" : "create",
-		"output" : "/home/masoom/Downloads/documents/network"
+		"output" : "path/to/dir"
 	},
 	"document watcher" : {
-		"path" : "/home/masoom/Documents",
+		"path" : "path/to/dir",
 		"extension" : "txt",
 		"kind" : "create",
-		"output" : "/home/masoom/Documents/test"
+		"output" : "path/to/dir"
 	},
 	"download pdf watcher":{
-		"path" : "/home/masoom/dev/comp/rust",
+		"path" : "path/to/dir",
 		"extension" : "pdf",
 		"kind" : "create",
-		"output" : "/home/masoom/dev/comp/rust/bins"
+		"output" : "path/to/dir"
 
 	}
 }
