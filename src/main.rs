@@ -84,7 +84,13 @@ fn watch<P: AsRef<Path> + std::fmt::Display>(path: P,output:&str,extension:&str,
                             let file_name = f_path.file_name().unwrap().to_str().unwrap();
                             if let Some(file_ext) = f_path.extension(){
                                 if extension == file_ext{
-                                    fs::rename(Path::new(&format!("{}/{}",path,file_name)),Path::new(&format!("{}/{}",output,file_name))).unwrap();
+                                    let input_str : String = format!("{}/{}",path,file_name);
+                                    let output_str : String = format!("{}/{}",output,file_name);
+                                    let input_file: &Path  = Path::new(&input_str);
+                                    let output_file : &Path = Path::new(&output_str);
+                                    fs::copy(input_file,output_file).unwrap();
+                                    fs::remove_file(input_file).unwrap();
+
                                 }
                             }
                         }
