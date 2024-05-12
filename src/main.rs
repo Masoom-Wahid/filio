@@ -64,7 +64,7 @@ fn prepare_json(file : &str) -> serde_json::Result<serde_json::Value> {
     Ok(json)
 }
 
-fn watch<P: AsRef<Path>>(path: P,output:&str,extension:&str,kind : &str) -> notify::Result<()> {
+fn watch<P: AsRef<Path> + std::fmt::Display>(path: P,output:&str,extension:&str,kind : &str) -> notify::Result<()> {
     let (tx, rx) = std::sync::mpsc::channel();
 
     let mut watcher: notify::INotifyWatcher = RecommendedWatcher::new(tx, Config::default())?;
@@ -80,14 +80,11 @@ fn watch<P: AsRef<Path>>(path: P,output:&str,extension:&str,kind : &str) -> noti
                     "create" => {
                         if event.kind.is_create(){
                             let f_path = &event.paths[0];
-                            // this kind of code should be out of public sight 
-                            // this isnt even disgrace this is just pure shame 
                             // idk why i am letting this here but we are 
-                            // this is the kind of code that would make linus vomit for years
                             let file_name = f_path.file_name().unwrap().to_str().unwrap();
                             if let Some(file_ext) = f_path.extension(){
                                 if extension == file_ext{
-                                    fs::rename(f_path,Path::new(&format!("{}/{}",output,file_name))).unwrap();
+                                    fs::rename(Path::new(&format!("{}/{}",path,file_name)),Path::new(&format!("{}/{}",output,file_name))).unwrap();
                                 }
                             }
                         }
