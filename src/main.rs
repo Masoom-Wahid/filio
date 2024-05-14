@@ -1,5 +1,4 @@
 use anyhow::Result;
-pub mod utils;
 pub mod core;
 
 use core::Fil::Fil;
@@ -9,8 +8,8 @@ fn main()  -> Result<()>{
 
 
     let action : String = std::env::args()
-    .nth(1).
-    expect("Argument 2 needs to be a path");
+        .nth(1)
+        .expect("Argument 2 needs to be a path");
     
     let path: String = std::env::args()
         .nth(2)
