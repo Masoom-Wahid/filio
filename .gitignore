@@ -2,4 +2,6 @@
 makefile
 /test
 make.sh
-
+TODO.md
+r.sh
+compile.sh
