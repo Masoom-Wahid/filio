@@ -7,6 +7,7 @@ use std::path::Path;
 use anyhow::{Error, Result};
 use std::collections::HashMap;
 use crate::lib::core::filio::Filio;
+use crate::lib::utils::str_helpers::str_to_vec;
 
 
 #[derive(Deserialize, Serialize,Debug)]
@@ -17,6 +18,8 @@ pub struct Fil{
 
 
 impl Fil{
+
+
     pub fn new(path:&str) -> Result<Fil>{
         let filio_actions : Vec<&str> = vec![
             "del",
@@ -38,6 +41,11 @@ impl Fil{
             }
             
 
+            let mut names : String = String::new();
+            if let Some(_name) = value.get("name"){
+                names = _name.as_str().expect("Expected a valid String name").to_string();
+            }
+
             let output = value["output"].as_str().expect("
             Missing Key : 'output'
             ");
@@ -46,7 +54,7 @@ impl Fil{
             Missing Key : 'action'
             ");
 
-            let extension = value["extension"].as_str().expect("
+            let extensions = value["extension"].as_str().expect("
             Missing Key : 'extension'
             ");
 
@@ -67,9 +75,10 @@ impl Fil{
             let filio: Filio = Filio::new(
                 String::from(input),
                 String::from(output),
-                String::from(extension),
+                String::from(extensions),
                 String::from(action),
-                String::from(prefix)
+                prefix,
+                names
             );
 
             filio_data.insert(key.clone(), filio);
@@ -96,7 +105,7 @@ impl Fil{
         thread::scope(|s| {
             for (_, filio) in &self.filios {
                 s.spawn(move || {
-                    log::info!("Started Watching path {} for extension of {} and events of {}",filio.input,filio.extension,filio.action);
+                    log::info!("Started Watching path {} for extension of {:?} and events of {} and name of {:?}",filio.input,filio.extensions,filio.action,filio.names);
                     if let Err(error) = filio.listen(&filio.input) {
                         log::error!("Error: {:?}", error);
                     }
