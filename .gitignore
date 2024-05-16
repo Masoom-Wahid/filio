@@ -1,6 +1,7 @@
 /target
 makefile
 /test
+/dummy
 make.sh
 TODO.md
 r.sh

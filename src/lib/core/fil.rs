@@ -1,13 +1,12 @@
 use serde_derive::{Deserialize, Serialize};
 use serde_json::Value;
-use std::fmt::format;
 use std::thread;
 use std::fs::File;
 use std::io::{Read, BufReader};
 use std::path::Path;
 use anyhow::{Error, Result};
 use std::collections::HashMap;
-use crate::core::Filio::Filio;
+use crate::lib::core::filio::Filio;
 
 
 #[derive(Deserialize, Serialize,Debug)]
@@ -19,7 +18,7 @@ pub struct Fil{
 
 impl Fil{
     pub fn new(path:&str) -> Result<Fil>{
-        let Filio_Actions : Vec<&str> = vec![
+        let filio_actions : Vec<&str> = vec![
             "del",
             "mov",
             "copy",
@@ -35,7 +34,7 @@ impl Fil{
 
             let mut prefix : String = String::new();
             if let Some(_prefix) = value.get("prefix"){
-                prefix = _prefix.as_str().expect("expected 'prefix'").to_string();
+                prefix = _prefix.as_str().expect("expected valid 'prefix'").to_string();
             }
             
 
@@ -63,7 +62,7 @@ impl Fil{
             }
 
 
-            assert!(Filio_Actions.contains(&action), "Invalid Kind\nChose from 'mov'\t'del'\t'copy'");
+            assert!(filio_actions.contains(&action), "Invalid Kind\nChose from 'mov'\t'del'\t'copy'");
 
             let filio: Filio = Filio::new(
                 String::from(input),
@@ -106,4 +105,3 @@ impl Fil{
         });
     }
 }
-

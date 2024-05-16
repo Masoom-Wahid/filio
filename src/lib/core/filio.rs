@@ -21,6 +21,7 @@ use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 use std::{fs, path::{Path, PathBuf}};
 use serde_derive::{Deserialize, Serialize};
 use anyhow::{Error, Result};
+
 #[derive(Deserialize, Serialize,Debug)]
 pub struct Filio{
     pub input : String,
@@ -42,7 +43,7 @@ impl Filio{
         }
     }
 
-    fn mov(&self,file_name : &str) -> Result<()>{
+    fn mov(&self,file_name : &str)-> Result<()>{   
         fs::rename(
             Path::new(&format!("{}/{}",self.input,file_name)),
             Path::new(&format!("{}/{}{}",self.output,self.prefix,file_name))
@@ -88,31 +89,54 @@ impl Filio{
             match res {
                 Ok(event)  => {
                     // TODO : check if any other event is worthy of changing
-                    // TODO : never return , just log the error
                     if event.kind.is_create() || event.kind.is_modify(){
                         // Neccesary information about the event that just happened
                         let event_path : &PathBuf= &event.paths[0];
-                        let event_file_ext = event_path.extension();
-                        let event_file_name = self.get_file_name(event_path)?;
+                        let event_file_ext: Option<&std::ffi::OsStr> = event_path.extension();
+                        let event_file_name: String = match  self.get_file_name(event_path){
+                                Ok(name) => name,
+                                Err(e) => {
+                                    log::error!("Error {}",e);
+                                    break;
+                                }
+                        };
                         match self.action.as_str() {
                             "mov" => {
                                 match event_file_ext {
                                     Some(ext) => {
                                         if self.extension.as_str() == ext{
-                                            self.mov(&event_file_name)?;
+                                            match  self.mov(&event_file_name) {
+                                                    Ok(_) => {},
+                                                    Err(e) => {
+                                                        log::info!("Error: {}",e);
+                                                    }
+                                                
+                                            }
                                         }
                                     },
                                     None => {}
                                 }
                             },
                             "del"  => {
-                                self.del(&event_file_name)?;
+                                match self.del(&event_file_name){
+                                    Ok(_) => {},
+                                    Err(e) => {
+                                        log::info!("Error: {}",e);
+                                    }
+                                
+                            }
                             },
                             "copy"  => {
                                 match event_file_ext {
                                     Some(ext) => {
                                         if self.extension.as_str() == ext{
-                                            self.copy(&event_file_name)?;
+                                            match self.copy(&event_file_name){
+                                                Ok(_) => {},
+                                                Err(e) => {
+                                                    log::info!("Error: {}",e);
+                                                }
+                                            
+                                            }
                                         }
                                     },
                                     None => {}

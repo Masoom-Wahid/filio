@@ -1,0 +1,9 @@
+{
+	"test1" : {
+		"input" : ".",
+		"extension" : "pdf",
+		"action" : "mov",
+		"output" : ".",
+		"prefix" : "how"
+	}
+}

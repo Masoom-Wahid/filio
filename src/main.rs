@@ -1,13 +1,15 @@
 use anyhow::Result;
-pub mod core;
-
-use core::Fil::Fil;
+mod lib;
+use lib::core::fil::Fil;
+use std::{env, path::PathBuf};
+use std::fs;
 
 fn main()  -> Result<()>{
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
 
 
-    let action : String = std::env::args()
+
+    let _action : String = std::env::args()
         .nth(1)
         .expect("Argument 2 needs to be a path");
     

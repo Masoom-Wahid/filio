@@ -7,14 +7,14 @@
 		"prefix" : ""
 	},
 	"document watcher" : {
-		"path" : "path/to/dir",
+		"input" : "path/to/dir",
 		"extension" : "txt",
 		"action" : "copy",
 		"output" : "path/to/dir",
 		"prefix" : ""
 	},
 	"download pdf watcher":{
-		"path" : "path/to/dir",
+		"input" : "path/to/dir",
 		"extension" : "pdf",
 		"action" : "del",
 		"output" : "path/to/dir",

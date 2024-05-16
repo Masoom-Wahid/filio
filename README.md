@@ -39,4 +39,4 @@ filio start /path/to/json
 
 ```
 #### this essentialy means that whenever a file changes in the dir 'input' and if that file has .pdf extension
-#### mov that file into 'output' dir with the prefix of 'prefix' , although prefix is optional and u can even #### not write it and will be fine , for more example see [here](./examples/) or
+#### mov that file into 'output' dir with the prefix of 'exam' , although prefix is optional and u can even  not write it and will be fine , for more example see [here](./examples/)
