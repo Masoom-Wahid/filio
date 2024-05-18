@@ -32,7 +32,7 @@ fn main()  -> Result<()>{
                 let path = {
                     match std::env::args().nth(2) {
                         Some(p) => p,
-                        None => String::from("/usr/share/filio/filio.json")
+                        None => String::from("/usr/share/filio/data/filio.json")
                     }
                 };
 
