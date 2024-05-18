@@ -1,10 +1,11 @@
 {
 	"download watcher" : {
 		"input" : "/path/to/dir",
-		"extension" : "pdf",
+		"extension" : "pdf,xml",
 		"action" : "mov",
+		"name": "ch1,network",
 		"output" : "path/to/dir",
-		"prefix" : ""
+		"prefix" : "network_"
 	},
 	"document watcher" : {
 		"input" : "path/to/dir",

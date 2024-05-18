@@ -101,8 +101,7 @@ impl Filio{
 
         for name in &self.names{
             // what on gods name is this ?
-            // borrowing from a pointer ?
-            // well it works
+            // borrowing from a derfrended pointer ?
             if  file_name.contains(&*name){
                 name_exists = true;
                 break
@@ -126,77 +125,102 @@ impl Filio{
             match res {
                 Ok(event)  => {
                     // TODO : check if any other event is worthy of changing
-                    if event.kind.is_create() || event.kind.is_modify(){
-                        // Neccesary information about the event that just happened
-                        let event_path : &PathBuf= &event.paths[0];
-                        let event_file_ext_option: Option<&std::ffi::OsStr> = event_path.extension();
-                        let event_file_name: String = match  self.get_file_name(event_path){
-                                Ok(name) => name,
-                                Err(e) => {
-                                    log::error!("File Name Error {}",e);
-                                    continue;
-                                }
-                        };
 
-                        /*
-                         for now we just check if the given event_file_name concludes the thing user is asking , if so 
-                         we can just continue , since the name field isnt just for one action , it can be done here .
-                         although for future use cases some sort of better handling would be better , but for now it is 
-                         sufficent
-                        */
 
-                        // Keep this for debugging purposes
-                        // println!("before");
-                        // log::info!("name  is {:?}",self.names);
-                        // log::info!("file_name is {:?}",event_file_name);
+                    /*
+                    Although it should be noted here for future versions , 
+                    when using .is_create() and is_modify() if create a conflict
+                    where if we use the action 'mov'.
 
-                        // println!("after");
-                        let event_file_ext: &std::ffi::OsStr = {
-                            match event_file_ext_option {
-                                Some(ext) => ext,
-                                _ => continue
-                            }
-                        };
-                        if !self.check_extension_and_name_exists(event_file_ext, &event_file_name){
-                            continue;
-                        }
-                        
-                        // log::info!("Extension is {:?}",event_file_ext);
+                    if the file is created and it is moved we get 2 substantial other errors , the might not 
+                    seem relevant now , but for future use cases might be useful.
+                    Any Pr regarding using .is_modify() and is_create() would be usefull
+                    since it is usefull to have them both in one dir 
+                     */
 
-                        match self.action.as_str() {
-                            "mov" => {
-                                match  self.mov(&event_file_name) {
-                                        Ok(_) => {},
-                                        Err(e) => {
-                                            log::error!("Mov Error: {}",e);
-                                            continue;
-                                        }
-                                    
-                                }
-                            },
-                            "del"  => {
-                                match self.del(&event_file_name){
-                                    Ok(_) => {},
-                                    Err(e) => {
-                                        log::error!("Del Error: {}",e);
-                                        continue;
-                                    }
-                                
-                            }
-                            },
-                            "copy"  => {
-                                match self.copy(&event_file_name){
-                                    Ok(_) => {},
-                                    Err(e) => {
-                                        log::error!("Copy Error: {}",e);
-                                        continue;
-                                    }
-                                
-                                }
-                            },
-                            _ => {}
-                        }
+
+                    if !event.kind.is_create(){
+                        continue
                     }
+
+                    // Neccesary information about the event that just happened
+                    let event_path : &PathBuf= &event.paths[0];
+                    let event_file_ext_option: Option<&std::ffi::OsStr> = event_path.extension();
+                    let event_file_name: String = match  self.get_file_name(event_path){
+                            Ok(name) => name,
+                            Err(e) => {
+                                log::error!("File Name Error {}",e);
+                                continue;
+                            }
+                    };
+
+                    /*
+                        for now we just check if the given event_file_name concludes the thing user is asking , if so 
+                        we can just continue , since the name field isnt just for one action , it can be done here .
+                        although for future use cases some sort of better handling would be better , but for now it is 
+                        sufficent
+                    */
+
+                    // Keep this for debugging purposes
+                    // println!("before");
+                    // log::info!("name  is {:?}",self.names);
+                    // log::info!("file_name is {:?}",event_file_name);
+
+                    // println!("after");
+                    let event_file_ext: &std::ffi::OsStr = {
+                        match event_file_ext_option {
+                            Some(ext) => ext,
+                            _ => continue
+                        }
+                    };
+                    if !self.check_extension_and_name_exists(event_file_ext, &event_file_name){
+                        continue;
+                    }
+                    
+                    // log::info!("Extension is {:?}",event_file_ext);
+
+
+                    /*
+                    Just Simple Pattern matching , if it matches any of the actions then use the helper function to do the job
+                    the reason we are returning anything is because of the channel
+                    for future refrences any erros should be logged into /var/filio/log 
+                    but for now we are logging it into std output
+                     */ 
+
+                    match self.action.as_str() {
+                        "mov" => {
+                            match  self.mov(&event_file_name) {
+                                    Ok(_) => {},
+                                    Err(e) => {
+                                        log::error!("Mov Error: {}",e);
+                                        continue
+                                    }
+                                
+                            }
+                        },
+                        "del"  => {
+                            match self.del(&event_file_name){
+                                Ok(_) => {},
+                                Err(e) => {
+                                    log::error!("Del Error: {}",e);
+                                    continue
+                                }
+                            
+                        }
+                        },
+                        "copy"  => {
+                            match self.copy(&event_file_name){
+                                Ok(_) => {},
+                                Err(e) => {
+                                    log::error!("Copy Error: {}",e);
+                                    continue
+                                }
+                            
+                            }
+                        },
+                        _ => {}
+                    }
+                    
 
                 },
                 Err(error) => log::error!("Base Error: {error:?}")
