@@ -1,6 +1,5 @@
-use anyhow::Result;
-mod lib;
-use lib::core::fil::Fil;
+use anyhow::Result; 
+use filio::core::fil::Fil;
 
 fn main()  -> Result<()>{
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();

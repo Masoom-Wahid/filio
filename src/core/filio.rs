@@ -22,7 +22,7 @@ use std::{fs, path::{Path, PathBuf}};
 use serde_derive::{Deserialize, Serialize};
 use anyhow::{Error, Result};
 
-use crate::lib::utils::str_helpers::str_to_vec;
+use crate::utils::str_helpers::str_to_vec;
 
 #[derive(Deserialize, Serialize,Debug)]
 pub struct Filio{

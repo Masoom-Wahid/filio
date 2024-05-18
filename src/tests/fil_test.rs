@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use crate::lib::core::fil::*;
-    use crate::lib::tests::get_abs_path::get_abs_path;
+    use crate::core::fil::*;
+    use crate::tests::get_abs_path::get_abs_path;
     use std::thread;
     use std::time::Duration;
     #[test]
