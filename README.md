@@ -9,21 +9,15 @@
 <hr>
 
 ### How To Setup?
-#### For now , You Have To Compile The Source Code Using
 ```shell
-cargo build --release
+curl -L https://github.com/Masoom-Wahid/filio/releases/download/v1/install.sh | sudo sh
 ```
-
-#### Copy the binary into /bin if u want it globally
-```
-sudo cp ./target/release/filio /bin
-``` 
 
 <hr>
 
 ### How to run the program ?
 ```shell
-filio start /path/to/json
+filio start
 ```
 
 ### what json file?
