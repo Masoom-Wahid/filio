@@ -5,7 +5,7 @@ use filio::utils::path_helpers::get_json_path;
 
 fn main()  -> Result<()>{
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
-    let version = 1.0;
+    let version = "1.1";
 
 
     let action : String = std::env::args()
