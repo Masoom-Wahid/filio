@@ -1,5 +1,5 @@
 #!/bin/bash
-FILIO_VERSION="1"
+FILIO_VERSION="1.1"
 USERNAME=$(whoami)
 FILIO_PATH="/home/$USERNAME/.filio"
 
