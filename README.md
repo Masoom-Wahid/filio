@@ -6,7 +6,7 @@
 
 ### How To Setup?
 ```shell
-curl -L https://github.com/Masoom-Wahid/filio/releases/download/v1/install.sh | sudo sh
+curl -L https://github.com/Masoom-Wahid/filio/releases/download/v1.1/install.sh | sudo sh
 ```
 
 <hr>
