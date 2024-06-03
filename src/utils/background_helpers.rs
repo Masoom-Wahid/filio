@@ -20,7 +20,7 @@ pub fn enable_filio(json_path : &str) -> Result<()>{
     //     .output()?;
 
 
-    let command = format!("nohup filio start {} > ~/.filio/logs/out.log 2>&1 & ",json_path);
+    let command = format!("nohup ~/.filio/bin/filio start {} > ~/.filio/logs/out.log 2>&1 & ",json_path);
     Command::new("/bin/sh")
         .arg("-c")
         .arg(&command)
